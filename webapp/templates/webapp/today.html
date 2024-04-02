@@ -1,0 +1,63 @@
+{% extends 'webapp/base.html' %}
+
+{% block content %}
+<body>
+    <style>
+        .table-container {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    </style>
+
+    <h5> Welcome, {{ user }}! 👋 </h5>
+    <hr>
+    <h3>Attendance lists</h3>
+    <hr>
+    
+    <div class="table-container">
+        <table class="table table-hover table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Arrival Date</th>
+                    <th scope="col">Arrival Time</th>
+                    <th scope="col">Day of week</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in page_obje %}
+                <tr>
+                    <td>{{ record.national_id }}</td>
+                    <td>{{ record.name }}</td>
+                    <td>{{ record.address }}</td>
+                    <td>{{ record.date_created }}</td>
+                    <td>{{ record.time_created }}</td>
+                    <td>{{ record.day_of_week }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obje.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obje.number }} of {{ page_obje.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obje.next_page_number }}">next</a>
+                <a href="?page={{ page_obje.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+{% endblock %}

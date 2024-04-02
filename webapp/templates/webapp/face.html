@@ -1,0 +1,75 @@
+{% extends 'webapp/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    /* Basic styling for demonstration purposes */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 0 10px 20px 10px;
+      padding: 20px;
+      text-align: center;
+      flex: 0 1 calc(50% - 20px); /* Adjust card width here */
+    }
+    .card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .button {
+      display: block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 768px) {
+      .card {
+        flex: 0 1 calc(100% - 20px); /* Adjust card width for smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <img src="{% static 'images/image1.jpeg' %}" alt="Image 1">
+      <p>Open the webcam camera to take the attendance of Employees</p>
+      <a href="{% url 'detect_with_webcam' %}" class="button">Detect With Video</a>
+    </div>
+    <div class="card">
+      <img src="{% static 'images/images2.jpeg' %}" alt="Image 2">
+      <p>Upload an image to take the attendance of Employees</p>
+      <form method="post" action="{% url 'detect-image' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="file" name="image" required>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Process</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+{% endblock %}
